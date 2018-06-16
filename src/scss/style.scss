@@ -1,0 +1,18 @@
+// reset css
+@import 'node_modules/reset.css/reset.css';
+
+// config
+@import 'variable', 'function', 'mixin', 'keyframes';
+
+// modules
+@import 'module/*';
+
+.movieContent {
+    position: relative;
+    margin: 0 auto;
+}
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
