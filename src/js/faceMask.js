@@ -10,7 +10,24 @@ import maskData from './maskData';
     const webgl_overlay = document.getElementById('webgl');
     const webGLContext = webgl_overlay.getContext('webgl',{ premultipliedAlpha: false });
 
-    /*********** Setup of video/webcam and checking for webGL support *********/
+    var ctrack = new clm.tracker();
+    ctrack.init(pModel);
+    var trackingStarted = false;
+    document.getElementById('selectmask').addEventListener('change', updateMask, false);
+    let positions;
+    const fd = new faceDeformer();
+    const masks = maskData;
+    let currentMask = 0;
+    let animationRequest;
+
+    let stats = new Stats();
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.top = '0px';
+    document.getElementById('container').appendChild(stats.domElement);
+    document.addEventListener("clmtrackrIteration", function (event) {
+        stats.update();
+    }, false);
+
     function enablestart() {
         const startbutton = document.getElementById('startbutton');
         startbutton.value = "start";
@@ -60,10 +77,6 @@ import maskData from './maskData';
     }
 
     /*********** Code for face tracking and face masking *********/
-    var ctrack = new clm.tracker();
-    ctrack.init(pModel);
-    var trackingStarted = false;
-    document.getElementById('selectmask').addEventListener('change', updateMask, false);
 
     function updateMask(el) {
         currentMask = parseInt(el.target.value, 10);
@@ -80,11 +93,6 @@ import maskData from './maskData';
         drawGridLoop();
     }
 
-    let positions;
-    const fd = new faceDeformer();
-    const masks = maskData;
-    let currentMask = 0;
-    let animationRequest;
 
     function drawGridLoop() {
         // get position of face
@@ -122,13 +130,6 @@ import maskData from './maskData';
     }
 
     /*********** Code for stats **********/
-    let stats = new Stats();
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.top = '0px';
-    document.getElementById('container').appendChild(stats.domElement);
-    document.addEventListener("clmtrackrIteration", function (event) {
-        stats.update();
-    }, false);
 
     const button = document.querySelector('#startbutton');
     button.addEventListener('click', () => {

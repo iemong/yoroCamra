@@ -405,7 +405,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     var webgl_overlay = document.getElementById('webgl');
     var webGLContext = webgl_overlay.getContext('webgl', { premultipliedAlpha: false });
 
-    /*********** Setup of video/webcam and checking for webGL support *********/
+    var ctrack = new clm.tracker();
+    ctrack.init(pModel);
+    var trackingStarted = false;
+    document.getElementById('selectmask').addEventListener('change', updateMask, false);
+    var positions = void 0;
+    var fd = new faceDeformer();
+    var masks = _maskData2.default;
+    var currentMask = 0;
+    var animationRequest = void 0;
+
+    var stats = new Stats();
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.top = '0px';
+    document.getElementById('container').appendChild(stats.domElement);
+    document.addEventListener("clmtrackrIteration", function (event) {
+        stats.update();
+    }, false);
+
     function enablestart() {
         var startbutton = document.getElementById('startbutton');
         startbutton.value = "start";
@@ -454,10 +471,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     }
 
     /*********** Code for face tracking and face masking *********/
-    var ctrack = new clm.tracker();
-    ctrack.init(pModel);
-    var trackingStarted = false;
-    document.getElementById('selectmask').addEventListener('change', updateMask, false);
 
     function updateMask(el) {
         currentMask = parseInt(el.target.value, 10);
@@ -473,12 +486,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         // start drawing face grid
         drawGridLoop();
     }
-
-    var positions = void 0;
-    var fd = new faceDeformer();
-    var masks = _maskData2.default;
-    var currentMask = 0;
-    var animationRequest = void 0;
 
     function drawGridLoop() {
         // get position of face
@@ -516,13 +523,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     }
 
     /*********** Code for stats **********/
-    var stats = new Stats();
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.top = '0px';
-    document.getElementById('container').appendChild(stats.domElement);
-    document.addEventListener("clmtrackrIteration", function (event) {
-        stats.update();
-    }, false);
 
     var button = document.querySelector('#startbutton');
     button.addEventListener('click', function () {
