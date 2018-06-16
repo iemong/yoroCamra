@@ -133,7 +133,7 @@ import maskData from './maskData';
     const button = document.querySelector('#startbutton');
     button.addEventListener('click', () => {
         startVideo();
-    })
+    });
 
     const setupButton = document.querySelector('#videobutton');
     setupButton.addEventListener('click', () => {
