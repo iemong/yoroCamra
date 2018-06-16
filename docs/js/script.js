@@ -403,6 +403,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     var overlay = document.getElementById('overlay');
     var overlayCC = overlay.getContext('2d');
     var webgl_overlay = document.getElementById('webgl');
+    var webGLContext = webgl_overlay.getContext('webgl', { premultipliedAlpha: false });
 
     /*********** Setup of video/webcam and checking for webGL support *********/
     function enablestart() {
@@ -421,8 +422,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         webgl_overlay.width = vid_width;
         webGLContext.viewport(0, 0, webGLContext.canvas.width, webGLContext.canvas.height);
     }
-
-    var webGLContext = webgl_overlay.getContext('webgl', { premultipliedAlpha: false });
 
     function gumSuccess(stream) {
         // add camera stream if getUserMedia succeeded

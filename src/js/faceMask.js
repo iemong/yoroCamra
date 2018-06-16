@@ -8,6 +8,7 @@ import maskData from './maskData';
     const overlay = document.getElementById('overlay');
     const overlayCC = overlay.getContext('2d');
     const webgl_overlay = document.getElementById('webgl');
+    const webGLContext = webgl_overlay.getContext('webgl',{ premultipliedAlpha: false });
 
     /*********** Setup of video/webcam and checking for webGL support *********/
     function enablestart() {
@@ -27,7 +28,6 @@ import maskData from './maskData';
         webGLContext.viewport(0, 0, webGLContext.canvas.width, webGLContext.canvas.height);
     }
 
-    const webGLContext = webgl_overlay.getContext('webgl',{ premultipliedAlpha: false });
 
     function gumSuccess(stream) {
         // add camera stream if getUserMedia succeeded
