@@ -20,8 +20,8 @@ import maskData from './maskData';
         // resize overlay and video if proportions are not 4:3
         // keep same height, just change width
         var proportion = vid.videoWidth / vid.videoHeight;
-        // vid_width = Math.round(vid_height * proportion);
-        // vid.width = vid_width;
+        vid_width = Math.round(vid_height * proportion);
+        vid.width = vid_width;
         overlay.width = vid_width;
         webgl_overlay.width = vid_width;
         webGLContext.viewport(0, 0, webGLContext.canvas.width, webGLContext.canvas.height);
