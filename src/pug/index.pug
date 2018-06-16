@@ -1,43 +1,47 @@
 extends /layout/_default-layout
 
 prepend config-block
-  - page_name = ''
+    - page_name = ''
 
 //- append stylesheet-block
 
 prepend javascript-block
 
 block content-block
-  script(src='./js/lib/dat.gui.min.js')
-  script(src='./js/lib/utils.js')
-  script(src="./js/lib/clmtrackr.js")
-  script(src='./js/lib/webgl-utils.js')
-  script(src='./models/model_pca_20_svm.js')
-  script(src='./js/lib/Stats.js')
-  script(src='./js/face_deformer.js')
-  #content
-    #container(style="position: relative")
-      video#videoel(width='100%', height='600', preload='auto', playsinline='', autoplay='')
-      canvas#overlay(width='100%', height='600')
-      canvas#webgl(width='100%', height='600')
-    input#videobutton.btn(type='button', value='video起動')
-    input#startbutton.btn(type='button', value='wait, loading video', disabled='disabled')
-    select#selectmask(name='mask')
-      option(value='0') Average face
-      option(value='1') Mona Lisa
-      option(value='2') Ironman
-      option(value='3') Skull mask
-      option(value='4') Sean Connery
-      option(value='5') Audrey
-      option(value='6') Cage
-      option(value='7') Go
-    .img-box(style="visibility:hidden; height:0; overflow:hidden")
-        img#average.masks(src='./img/media/average.png')
-        img#monalisa.masks(src='./img/media/joconde.jpg')
-        img#ironman.masks(src='./img/media/ironman.jpg')
-        img#sean.masks(src='./img/media/SeanConnery.jpg')
-        img#skull.masks(src='./img/media/skullmask.jpg')
-        img#audrey.masks(src='./img/media/audrey.jpg')
-        img#cage2.masks(src='./img/media/cage.jpg')
-        img#go.masks(src='./img/media/go.jpg')
+    script(src='./js/lib/dat.gui.min.js')
+    script(src='./js/lib/utils.js')
+    script(src="./js/lib/clmtrackr.js")
+    script(src='./js/lib/webgl-utils.js')
+    script(src='./models/model_pca_20_svm.js')
+    script(src='./js/lib/Stats.js')
+    script(src='./js/face_deformer.js')
+    #content
+        #container(style="position: relative")
+            video#videoel(width='100%', height='600', preload='auto', playsinline='', autoplay='')
+            canvas#overlay(width='100%', height='600')
+            canvas#webgl(width='100%', height='600')
+        input#videobutton.btn(type='button', value='video起動')
+        input#startbutton.btn(type='button', value='wait, loading video', disabled='disabled')
+        select#selectmask(name='mask')
+            option(value='0') Average face
+            option(value='1') Mona Lisa
+            option(value='2') Ironman
+            option(value='3') Skull mask
+            option(value='4') Sean Connery
+            option(value='5') Audrey
+            option(value='6') Cage
+            option(value='7') Go
+            option(value='8') Honda
+            option(value='9') Kagawa
+        .img-box(style="visibility:hidden; height:0; overflow:hidden")
+            img#average.masks(src='./img/media/average.png')
+            img#monalisa.masks(src='./img/media/joconde.jpg')
+            img#ironman.masks(src='./img/media/ironman.jpg')
+            img#sean.masks(src='./img/media/SeanConnery.jpg')
+            img#skull.masks(src='./img/media/skullmask.jpg')
+            img#audrey.masks(src='./img/media/audrey.jpg')
+            img#cage2.masks(src='./img/media/cage.jpg')
+            img#go.masks(src='./img/media/go.jpg')
+            img#honda.masks(src='./img/media/honda.jpg')
+            img#kagawa.masks(src='./img/media/kagawa.jpg')
 
