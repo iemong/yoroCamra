@@ -540,7 +540,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         } else if (navigator.getUserMedia) {
             navigator.getUserMedia({ video: true }, gumSuccess, gumFail);
         } else {
-            insertAltVideo(vid);
             document.getElementById('gum').className = "hide";
             document.getElementById('nogum').className = "nohide";
             alert("Your browser does not seem to support getUserMedia, using a fallback video instead.");
