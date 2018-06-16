@@ -2,31 +2,6 @@ import maskData from './maskData';
 
 (() => {
 
-    const vid = document.getElementById('videoel');
-    let vid_width = vid.width;
-    const vid_height = vid.height;
-    const overlay = document.getElementById('overlay');
-    const overlayCC = overlay.getContext('2d');
-    const webgl_overlay = document.getElementById('webgl');
-    const webGLContext = webgl_overlay.getContext('webgl',{ premultipliedAlpha: false });
-
-    var ctrack = new clm.tracker();
-    ctrack.init(pModel);
-    var trackingStarted = false;
-    document.getElementById('selectmask').addEventListener('change', updateMask, false);
-    let positions;
-    const fd = new faceDeformer();
-    const masks = maskData;
-    let currentMask = 0;
-    let animationRequest;
-
-    let stats = new Stats();
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.top = '0px';
-    document.getElementById('container').appendChild(stats.domElement);
-    document.addEventListener("clmtrackrIteration", function (event) {
-        stats.update();
-    }, false);
 
     function enablestart() {
         const startbutton = document.getElementById('startbutton');
@@ -104,7 +79,7 @@ import maskData from './maskData';
         }
         // check whether mask has converged
         const pn = ctrack.getConvergence();
-        if (pn < 0.4) {
+        if (pn < 0.9) {
             switchMasks();
             requestAnimFrame(drawMaskLoop);
         } else {
@@ -132,12 +107,12 @@ import maskData from './maskData';
     /*********** Code for stats **********/
 
     const button = document.querySelector('#startbutton');
-    button.addEventListener('click', () => {
+    button.addEventListener('touchstart', () => {
         startVideo();
     });
 
     const setupButton = document.querySelector('#videobutton');
-    setupButton.addEventListener('click', () => {
+    setupButton.addEventListener('touchstart', () => {
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
         window.URL = window.URL || window.webkitURL || window.msURL || window.mozURL;
 // check for camerasupport
@@ -152,4 +127,31 @@ import maskData from './maskData';
         }
         vid.addEventListener('canplay', enablestart, false);
     })
+
+    const vid = document.getElementById('videoel');
+    let vid_width = vid.width;
+    const vid_height = vid.height;
+    const overlay = document.getElementById('overlay');
+    const overlayCC = overlay.getContext('2d');
+    const webgl_overlay = document.getElementById('webgl');
+    const webGLContext = webgl_overlay.getContext('webgl',{ premultipliedAlpha: false });
+
+    var ctrack = new clm.tracker();
+    ctrack.init(pModel);
+    var trackingStarted = false;
+    document.getElementById('selectmask').addEventListener('change', updateMask, false);
+    let positions;
+    const fd = new faceDeformer();
+    const masks = maskData;
+    let currentMask = 0;
+    let animationRequest;
+
+    let stats = new Stats();
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.top = '0px';
+    document.getElementById('container').appendChild(stats.domElement);
+    document.addEventListener("clmtrackrIteration", function (event) {
+        stats.update();
+    }, false);
+
 })();
