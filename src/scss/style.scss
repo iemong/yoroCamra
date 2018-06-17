@@ -12,7 +12,7 @@
     margin: 0 auto;
 }
 video {
-    //transform: scaleX(-1);
+    transform: scaleX(-1);
     transform-origin: center center;
     height: 100vh;
 }
@@ -21,7 +21,7 @@ canvas {
     position: absolute;
     top: 0;
     left: 0;
-    //transform: scaleX(-1);
+    transform: scaleX(-1);
     transform-origin: center center;
 }
 canvas:nth-of-type(1) {
