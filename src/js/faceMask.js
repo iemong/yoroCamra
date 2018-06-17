@@ -15,9 +15,12 @@ import maskData from './maskData';
         var proportion = vid.videoWidth / vid.videoHeight;
         vid_width = Math.round(vid_height * proportion);
         vid.width = vid_width;
+        vid.height = vid_height;
         overlay.width = vid_width;
+        overlay.height = vid_height;
         webgl_overlay.width = vid_width;
-        webGLContext.viewport(0, 0, webGLContext.canvas.width, webGLContext.canvas.height);
+        webgl_overlay.height = vid_height;
+        webGLContext.viewport(0, 0, webgl_overlay.width, webgl_overlay.height);
     }
 
 
@@ -104,15 +107,26 @@ import maskData from './maskData';
         animationRequest = requestAnimFrame(drawMaskLoop);
     }
 
+    const detectDeviceType = () =>
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+            ? 'Mobile'
+            : 'Desktop';
     /*********** Code for stats **********/
 
     const button = document.querySelector('#startbutton');
-    button.addEventListener('touchstart', () => {
-        startVideo();
-    });
-
     const setupButton = document.querySelector('#videobutton');
-    setupButton.addEventListener('touchstart', () => {
+
+    if(detectDeviceType() === 'Mobile') {
+        button.addEventListener('touchstart', () => {
+            startVideo();
+        });
+    } else {
+        button.addEventListener('click', () => {
+            startVideo();
+        });
+    }
+
+    const videoStart = () => {
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
         window.URL = window.URL || window.webkitURL || window.msURL || window.mozURL;
 // check for camerasupport
@@ -126,11 +140,21 @@ import maskData from './maskData';
             alert("Your browser does not seem to support getUserMedia, using a fallback video instead.");
         }
         vid.addEventListener('canplay', enablestart, false);
-    })
+    }
+
+    if(detectDeviceType() === 'Mobile') {
+        setupButton.addEventListener('touchstart', () => {
+            videoStart();
+        })
+    } else {
+        setupButton.addEventListener('click', () => {
+            videoStart();
+        })
+    }
 
     const vid = document.getElementById('videoel');
-    let vid_width = vid.width;
-    const vid_height = vid.height;
+    let vid_width = vid.clientWidth;
+    const vid_height = vid.clientHeight;
     const overlay = document.getElementById('overlay');
     const overlayCC = overlay.getContext('2d');
     const webgl_overlay = document.getElementById('webgl');

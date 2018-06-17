@@ -409,9 +409,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         var proportion = vid.videoWidth / vid.videoHeight;
         vid_width = Math.round(vid_height * proportion);
         vid.width = vid_width;
+        vid.height = vid_height;
         overlay.width = vid_width;
+        overlay.height = vid_height;
         webgl_overlay.width = vid_width;
-        webGLContext.viewport(0, 0, webGLContext.canvas.width, webGLContext.canvas.height);
+        webgl_overlay.height = vid_height;
+        webGLContext.viewport(0, 0, webgl_overlay.width, webgl_overlay.height);
     }
 
     function gumSuccess(stream) {
@@ -496,15 +499,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         animationRequest = requestAnimFrame(drawMaskLoop);
     }
 
+    var detectDeviceType = function detectDeviceType() {
+        return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop'
+        );
+    };
     /*********** Code for stats **********/
 
     var button = document.querySelector('#startbutton');
-    button.addEventListener('touchstart', function () {
-        startVideo();
-    });
-
     var setupButton = document.querySelector('#videobutton');
-    setupButton.addEventListener('touchstart', function () {
+
+    if (detectDeviceType() === 'Mobile') {
+        button.addEventListener('touchstart', function () {
+            startVideo();
+        });
+    } else {
+        button.addEventListener('click', function () {
+            startVideo();
+        });
+    }
+
+    var videoStart = function videoStart() {
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
         window.URL = window.URL || window.webkitURL || window.msURL || window.mozURL;
         // check for camerasupport
@@ -518,11 +532,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
             alert("Your browser does not seem to support getUserMedia, using a fallback video instead.");
         }
         vid.addEventListener('canplay', enablestart, false);
-    });
+    };
+
+    if (detectDeviceType() === 'Mobile') {
+        setupButton.addEventListener('touchstart', function () {
+            videoStart();
+        });
+    } else {
+        setupButton.addEventListener('click', function () {
+            videoStart();
+        });
+    }
 
     var vid = document.getElementById('videoel');
-    var vid_width = vid.width;
-    var vid_height = vid.height;
+    var vid_width = vid.clientWidth;
+    var vid_height = vid.clientHeight;
     var overlay = document.getElementById('overlay');
     var overlayCC = overlay.getContext('2d');
     var webgl_overlay = document.getElementById('webgl');
